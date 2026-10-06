@@ -1,0 +1,310 @@
+/* HOME REFERENCE FINAL OVERRIDES
+   Exact visual treatment for the supplied Home Offline / Online UI.
+   Real Leaflet map, reference-matched chrome and controls.
+*/
+.home-map {
+  position: relative;
+  background: #f7f7f7;
+}
+.home-map-canvas,
+.home-map-canvas .leaflet-container {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.home-map-canvas .leaflet-container {
+  background: #f7f7f7;
+  font-family: "Kanit", sans-serif;
+}
+.home-map-canvas .leaflet-tile-pane {
+  filter: grayscale(1) saturate(.15) brightness(1.05);
+}
+.home-map.is-offline .home-map-canvas .leaflet-tile-pane {
+  opacity: .72;
+}
+.home-map.is-online .home-map-canvas .leaflet-tile-pane {
+  opacity: .92;
+  filter: grayscale(.78) saturate(.38) brightness(1.04);
+}
+.home-map-canvas .leaflet-control-attribution {
+  font-size: 6px;
+  line-height: 9px;
+  padding: 0 2px;
+  opacity: .55;
+}
+.home-map-loading {
+  position: absolute;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  color: #adb5bd;
+  background: #f7f7f7;
+  font-size: 10px;
+}
+.home-map-canvas .leaflet-marker-icon,
+.home-map-canvas .leaflet-marker-shadow {
+  filter: drop-shadow(0 2px 3px rgba(0,0,0,.12));
+}
+
+/* The reference uses a 44px orange support control with a white headset. */
+.home-support-button {
+  z-index: 500;
+  width: 44px !important;
+  height: 44px !important;
+  border-radius: 50% !important;
+  background: #ff7a00 !important;
+  color: #fff !important;
+  box-shadow: 0 4px 10px rgba(0,0,0,.14) !important;
+}
+.home-support-button svg {
+  width: 24px !important;
+  height: 24px !important;
+}
+
+/* Profile / business balance control:
+   collapsed = avatar + right chevron;
+   expanded = avatar + currency balance + left chevron.
+   The control keeps the same 35px height and visual treatment, only its
+   horizontal footprint changes to match the supplied interaction. */
+.home-business-selector {
+  width: 70px !important;
+  max-width: 70px !important;
+  flex: 0 0 70px !important;
+  height: 35px !important;
+  padding: 0 9px 0 4px !important;
+  gap: 8px !important;
+  overflow: hidden !important;
+  box-shadow: none !important;
+  transition: width .18s ease, max-width .18s ease, flex-basis .18s ease !important;
+}
+.home-business-selector.is-expanded {
+  width: 230px !important;
+  max-width: 230px !important;
+  flex-basis: 230px !important;
+}
+.home-business-selector .home-balance {
+  display: none !important;
+  white-space: nowrap !important;
+  opacity: 0 !important;
+  transform: translateX(-4px) !important;
+  transition: opacity .12s ease, transform .18s ease !important;
+}
+.home-business-selector.is-expanded .home-balance {
+  display: inline-block !important;
+  opacity: 1 !important;
+  transform: translateX(0) !important;
+}
+.home-business-selector > svg {
+  flex: 0 0 16px !important;
+  width: 16px !important;
+  height: 16px !important;
+  margin-left: auto !important;
+  color: #999999 !important;
+}
+
+/* Temporary profile-image placeholder until the final avatar asset is supplied. */
+.home-avatar-placeholder {
+  width: 30px !important;
+  height: 30px !important;
+  flex: 0 0 30px !important;
+  border-radius: 50% !important;
+  display: grid !important;
+  place-items: center !important;
+  overflow: hidden !important;
+  background: #F1F1F1 !important;
+  border: 1px solid #D8D8D8 !important;
+  color: #9A9A9A !important;
+}
+
+.home-avatar-placeholder svg {
+  width: 18px !important;
+  height: 18px !important;
+}
+
+.home-header-icon {
+  box-shadow: none !important;
+}
+
+.home-header-icon svg,
+.home-header-icon-asset {
+  width: 36px !important;
+  height: 36px !important;
+  display: block !important;
+}
+
+.home-notification-badge {
+  top: -1px !important;
+  right: -1px !important;
+  width: 16px !important;
+  min-width: 16px !important;
+  height: 16px !important;
+  background: #FF7A00 !important;
+}
+
+/* Exact slider visual: neutral offline state, red-to-orange online state.
+   Offline → online fills from left to right.
+   Online → offline un-fills from right to left, so the grey reveal follows
+   the user's leftward swipe instead of repeating the online animation. */
+.home-availability {
+  position: relative;
+  overflow: hidden;
+  background: #e7e7e7 !important;
+  border-radius: 10px !important;
+  color: #202124 !important;
+}
+.home-availability-fill {
+  left: 0 !important;
+  right: auto !important;
+  top: 0 !important;
+  bottom: 0 !important;
+  width: var(--drag-progress, 0%) !important;
+  background: linear-gradient(90deg, #e73e44 0%, #ff8c3f 100%) !important;
+  opacity: 1 !important;
+  transition: width .12s linear !important;
+}
+.home-availability.is-online {
+  background: linear-gradient(90deg, #e73e44 0%, #ff8c3f 100%) !important;
+  color: #fff !important;
+}
+/* While swiping online → offline, the grey area grows from the right.
+   This makes the orange area retract from right to left with the finger. */
+.home-availability.is-online.is-dragging .home-availability-fill {
+  left: auto !important;
+  right: 0 !important;
+  width: var(--drag-progress, 0%) !important;
+  background: #e7e7e7 !important;
+  opacity: 1 !important;
+}
+.home-availability.is-online:not(.is-dragging) .home-availability-fill {
+  left: 0 !important;
+  right: auto !important;
+  width: 0 !important;
+  background: transparent !important;
+  opacity: 0 !important;
+}
+.home-availability.is-going-offline .home-availability-fill {
+  left: auto !important;
+  right: 0 !important;
+  width: 100% !important;
+  background: #e7e7e7 !important;
+  opacity: 1 !important;
+}
+.home-availability.is-going-offline {
+  color: #202124 !important;
+}
+.home-availability.is-going-offline .home-slider-chevron,
+.home-availability.is-going-offline .home-slider-label {
+  color: #202124 !important;
+}
+.home-slider-chevron {
+  width: 24px !important;
+  height: 24px !important;
+  display: grid !important;
+  place-items: center !important;
+  color: currentColor !important;
+}
+.home-slider-chevron-svg {
+  width: 20px;
+  height: 24px;
+  display: block;
+}
+.home-slider-label {
+  font-size: 16px !important;
+  line-height: 20px !important;
+  font-weight: 700 !important;
+  white-space: nowrap !important;
+}
+.home-availability.is-online .home-slider-label,
+.home-availability.is-online .home-slider-chevron {
+  color: #fff !important;
+}
+.home-availability.is-going-offline .home-slider-label,
+.home-availability.is-going-offline .home-slider-chevron {
+  color: #202124 !important;
+}
+
+/* Header icons: retain the supplied 24px line-icon appearance without
+   the oversized circular button treatment. */
+.home-header-actions {
+  gap: 12px !important;
+}
+.home-header-icon {
+  width: 38px !important;
+  height: 38px !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+.home-header-icon svg {
+  width: 27px !important;
+  height: 27px !important;
+}
+.home-notification-badge {
+  width: 16px !important;
+  height: 16px !important;
+  min-width: 16px !important;
+  border-radius: 50% !important;
+  background: #ff7a00 !important;
+  color: #fff !important;
+  font-size: 9px !important;
+  line-height: 16px !important;
+  top: 4px !important;
+  right: 2px !important;
+  z-index: 3 !important;
+}
+
+/* Bottom navigation icons recreated from the supplied design. */
+.home-nav-icon svg,
+.home-nav-icon-asset {
+  width: 24px !important;
+  height: 24px !important;
+  display: block !important;
+}
+.home-nav-item {
+  color: #adb0b2;
+}
+.home-nav-item.is-active {
+  color: #ff7a00 !important;
+}
+.home-nav-item.is-active .home-nav-icon svg,
+.home-nav-item.is-active .home-nav-icon-asset {
+  filter: brightness(0) saturate(100%) invert(54%) sepia(99%) saturate(2611%) hue-rotate(359deg) brightness(103%) contrast(103%) !important;
+}
+
+/* Keep the canonical 80px navigation row from clipping the 44px target. */
+.home-bottom-nav {
+  height: 80px !important;
+  min-height: 80px !important;
+  max-height: 80px !important;
+  padding: 2px 0 max(24px, var(--safe-bottom)) !important;
+  box-sizing: border-box !important;
+}
+
+/* The stock rail itself owns the horizontal scroll viewport.
+   The 15px right padding is part of the scrollable content, so the
+   final card can be brought fully into view without changing its design. */
+.home-stock-scroll {
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: none !important;
+  box-sizing: border-box !important;
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  padding-left: 15px !important;
+  padding-right: 15px !important;
+  gap: 10px !important;
+  touch-action: pan-x !important;
+  -webkit-overflow-scrolling: touch !important;
+  overscroll-behavior-x: contain !important;
+  scrollbar-width: none !important;
+}
+.home-stock-scroll::-webkit-scrollbar {
+  display: none !important;
+}
+.home-stock-card {
+  flex: 0 0 210px !important;
+  width: 210px !important;
+  min-width: 210px !important;
+}

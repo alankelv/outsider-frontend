@@ -1,5 +1,0 @@
-# Hatchable project manifest. This file marks the folder as a
-# Hatchable project and declares the services it uses.
-# Reference: https://hatchable.com/docs/developers/config
-name = "Outsider Business"
-description = "Outsider Business is the business and vendor management application in the Outsider ecosystem. It connects to the shared outsider-api backend and supports business owners, stall managers, vendors, orders, inventory, payments, wallets, suppliers, messaging, notifications, and related business operati"
